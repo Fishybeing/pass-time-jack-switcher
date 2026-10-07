@@ -1,0 +1,8 @@
+*.vpk binary
+*.png binary
+*.ico binary
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+*.sh text eol=lf
+*.txt text eol=crlf
+*.md text eol=lf

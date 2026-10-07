@@ -1,0 +1,96 @@
+jack|Classic|Normal JACK||normal
+jack|Classic|Nyan Cat|jack_nyancat.vpk|nyancat
+jack|TF2 Heads|Pootis Heavy|jack_head_pootis.vpk|head_pootis
+jack|TF2 Heads|Angry Heavy|jack_head_heavy_angry.vpk|head_heavy_angry
+jack|TF2 Heads|Happy Heavy|jack_head_heavy_happy.vpk|head_heavy_happy
+jack|TF2 Heads|Scout|jack_head_scout.vpk|head_scout
+jack|TF2 Heads|Soldier|jack_head_soldier.vpk|head_soldier
+jack|TF2 Heads|Pyro|jack_head_pyro.vpk|head_pyro
+jack|TF2 Heads|Demoman|jack_head_demo.vpk|head_demo
+jack|TF2 Heads|Engineer|jack_head_engineer.vpk|head_engineer
+jack|TF2 Heads|Medic|jack_head_medic.vpk|head_medic
+jack|TF2 Heads|Sniper|jack_head_sniper.vpk|head_sniper
+jack|TF2 Heads|Spy|jack_head_spy.vpk|head_spy
+jack|Minecraft|Grass Block|jack_mc_grassblock.vpk|mc_grassblock
+jack|Minecraft|TNT|jack_mc_tnt.vpk|mc_tnt
+jack|Minecraft|Diamond Ore|jack_mc_diamondore.vpk|mc_diamondore
+jack|Minecraft|Crafting Table|jack_mc_craftingtable.vpk|mc_craftingtable
+jack|Minecraft|Oak Log|jack_mc_oaklog.vpk|mc_oaklog
+jack|Minecraft|Bookshelf|jack_mc_bookshelf.vpk|mc_bookshelf
+jack|Minecraft|Furnace|jack_mc_furnace.vpk|mc_furnace
+jack|Minecraft|Diamond Block|jack_mc_diamondblock.vpk|mc_diamondblock
+jack|Minecraft|Gold Block|jack_mc_goldblock.vpk|mc_goldblock
+jack|Minecraft|Obsidian|jack_mc_obsidian.vpk|mc_obsidian
+jack|Minecraft|Command Block|jack_mc_commandblock.vpk|mc_commandblock
+jack|Spooky (Halloween)|Jack o'Lantern|jack_mc_jackolantern.vpk|mc_jackolantern
+jack|Spooky (Halloween)|Carved Pumpkin|jack_mc_carvedpumpkin.vpk|mc_carvedpumpkin
+jack|Spooky (Halloween)|Creeper Head|jack_mc_creeperhead.vpk|mc_creeperhead
+jack|Spooky (Halloween)|Skeleton Skull|jack_mc_skeletonskull.vpk|mc_skeletonskull
+jack|Spooky (Halloween)|Wither Skull|jack_mc_witherskull.vpk|mc_witherskull
+jack|Spooky (Halloween)|Zombie Head|jack_mc_zombiehead.vpk|mc_zombiehead
+jack|Spooky (Halloween)|Spawner|jack_mc_spawner.vpk|mc_spawner
+jack|Spooky (Halloween)|Soul Sand|jack_mc_soulsand.vpk|mc_soulsand
+jack|Spooky (Halloween)|Netherrack|jack_mc_netherrack.vpk|mc_netherrack
+jack|Spooky (Halloween)|Crying Obsidian|jack_mc_cryingobsidian.vpk|mc_cryingobsidian
+jack|Spooky (Halloween)|Bone Block|jack_mc_boneblock.vpk|mc_boneblock
+jack|Spooky (Halloween)|Sculk|jack_mc_sculk.vpk|mc_sculk
+xhair|Default|Default Crosshair||xhair_default
+xhair|Ring on crosshair + ball (A)|k1 A|pt_xhair_k1a.vpk|xhair_k1
+xhair|Ring on crosshair + ball (A)|k2 A|pt_xhair_k2a.vpk|xhair_k2
+xhair|Ring on crosshair + ball (A)|k3 A|pt_xhair_k3a.vpk|xhair_k3
+xhair|Ring on crosshair + ball (A)|k4 A|pt_xhair_k4a.vpk|xhair_k4
+xhair|Ring on crosshair + ball (A)|k18 A|pt_xhair_k18a.vpk|xhair_k18
+xhair|Ring on ball only (B)|k1 B|pt_xhair_k1b.vpk|xhair_k1
+xhair|Ring on ball only (B)|k2 B|pt_xhair_k2b.vpk|xhair_k2
+xhair|Ring on ball only (B)|k3 B|pt_xhair_k3b.vpk|xhair_k3
+xhair|Ring on ball only (B)|k4 B|pt_xhair_k4b.vpk|xhair_k4
+xhair|Ring on ball only (B)|k18 B|pt_xhair_k18b.vpk|xhair_k18
+xhair|Single version|k5|pt_xhair_k5.vpk|xhair_k5
+xhair|Single version|k6|pt_xhair_k6.vpk|xhair_k6
+xhair|Single version|k7|pt_xhair_k7.vpk|xhair_k7
+xhair|Single version|k8|pt_xhair_k8.vpk|xhair_k8
+xhair|Single version|k9|pt_xhair_k9.vpk|xhair_k9
+xhair|Single version|k10|pt_xhair_k10.vpk|xhair_k10
+xhair|Single version|k11|pt_xhair_k11.vpk|xhair_k11
+xhair|Single version|k12|pt_xhair_k12.vpk|xhair_k12
+xhair|Single version|k13|pt_xhair_k13.vpk|xhair_k13
+xhair|Single version|k14|pt_xhair_k14.vpk|xhair_k14
+xhair|Single version|k15|pt_xhair_k15.vpk|xhair_k15
+xhair|Single version|k16|pt_xhair_k16.vpk|xhair_k16
+xhair|Single version|k17|pt_xhair_k17.vpk|xhair_k17
+xhair|Single version|European|pt_xhair_european.vpk|xhair_european
+xhair|PASS Time archive|kin k1|pt_xhair_archive_kin_k1.vpk|xhair_archive_kin_k1
+xhair|PASS Time archive|kin k1 no ring|pt_xhair_archive_kin_k1noring.vpk|xhair_archive_kin_k1noring
+xhair|PASS Time archive|kin k2|pt_xhair_archive_kin_k2.vpk|xhair_archive_kin_k2
+xhair|PASS Time archive|kin k2 fix|pt_xhair_archive_kin_k2fix.vpk|xhair_archive_kin_k2fix
+xhair|PASS Time archive|kin k2 no ring|pt_xhair_archive_kin_k2noring.vpk|xhair_archive_kin_k2noring
+xhair|PASS Time archive|kin k3|pt_xhair_archive_kin_k3.vpk|xhair_archive_kin_k3
+xhair|PASS Time archive|kin k3 no ring|pt_xhair_archive_kin_k3noring.vpk|xhair_archive_kin_k3noring
+xhair|PASS Time archive|kin k4|pt_xhair_archive_kin_k4.vpk|xhair_archive_kin_k4
+xhair|PASS Time archive|kin k4 no ring|pt_xhair_archive_kin_k4noring.vpk|xhair_archive_kin_k4noring
+xhair|PASS Time archive|kin k5|pt_xhair_archive_kin_k5.vpk|xhair_archive_kin_k5
+xhair|PASS Time archive|kin k6|pt_xhair_archive_kin_k6.vpk|xhair_archive_kin_k6
+xhair|PASS Time archive|Crosshair 1|pt_xhair_archive_crosshair1.vpk|xhair_archive_crosshair1
+xhair|PASS Time archive|Crosshair 1 no ring|pt_xhair_archive_crosshair1_noring.vpk|xhair_archive_crosshair1_noring
+xhair|PASS Time archive|Crosshair 1 small|pt_xhair_archive_crosshair1_small.vpk|xhair_archive_crosshair1_small
+xhair|PASS Time archive|Crosshair 1 small no ring|pt_xhair_archive_crosshair1_small_noring.vpk|xhair_archive_crosshair1_small_noring
+xhair|PASS Time archive|exer dot|pt_xhair_archive_exer_dot.vpk|xhair_archive_exer_dot
+xhair|PASS Time archive|exer dot no ring|pt_xhair_archive_exer_dot_noring.vpk|xhair_archive_exer_dot_noring
+xhair|PASS Time archive|Laxson custom|pt_xhair_archive_laxson_custom.vpk|xhair_archive_laxson_custom
+xhair|PASS Time archive|Anime|pt_xhair_archive_anime.vpk|xhair_archive_anime
+icon|Default|Default Icons||icon_default
+icon|kin's icons|kin icons 1|pt_icon_kin_1.vpk|icon_kin_1
+icon|kin's icons|kin icons 1b|pt_icon_kin_1b.vpk|icon_kin_1b
+icon|kin's icons|kin icons 2|pt_icon_kin_2.vpk|icon_kin_2
+sound|Default|Default Sounds||sound_default
+sound|Lock-on, pickup and catch sounds|Snappy (Mr Boom Snook)|pt_sound_snappy.vpk|sound_snappy
+sound|Lock-on, pickup and catch sounds|Clean Beeps|pt_sound_cleanbeeps.vpk|sound_cleanbeeps
+extra|Silent sounds|Silent Crowd|extra_silent_crowd.vpk|extra_silent_crowd
+extra|Silent sounds|Silent Horns + Whistle|extra_silent_horns.vpk|extra_silent_horns
+extra|Silent sounds|Silent Ball Hum|extra_silent_ballhum.vpk|extra_silent_ballhum
+extra|Silent sounds|Silent TV + Scrolls|extra_silent_tv.vpk|extra_silent_tv
+extra|Left hand remover|No Soldier Hand|extra_lefthand_soldier.vpk|extra_lefthand_soldier
+extra|Left hand remover|No Demoman Hand|extra_lefthand_demo.vpk|extra_lefthand_demo
+extra|Left hand remover|No Medic Hand|extra_lefthand_medic.vpk|extra_lefthand_medic
+extra|HUD and practice|No Power Meter|extra_no_power_meter.vpk|extra_no_power_meter
+extra|HUD and practice|Practice Configs|extra_practice_cfgs.vpk|extra_practice_cfgs
