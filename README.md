@@ -7,8 +7,8 @@ JACK skins + crosshairs, icons, sounds and some extras for TF2 PASS Time. Pick s
 ## Download
 
 Get it from [Releases](../../releases/latest):
-- Windows: `pass-time-jack-switcher.bat` (or the .zip)
-- Linux: `pass-time-jack-switcher.sh`, run with `bash pass-time-jack-switcher.sh`
+- Windows: `windows-1-click.bat` (or `windows-folder.zip`)
+- Linux: `linux-1-click.sh`, run with `bash linux-1-click.sh`
 
 Close TF2 first, pick what you want, then start TF2. Test with `map pass_brickyard`.
 
