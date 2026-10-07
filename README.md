@@ -2,8 +2,7 @@
 
 JACK skins + crosshairs, icons, sounds and some extras for TF2 PASS Time. Pick stuff from a menu and it installs it for you.
 
-<img src="app/thumbs/head_pootis.png" width="100"> <img src="app/thumbs/head_soldier.png" width="100"> <img src="app/thumbs/nyancat.png" width="100"> <img src="app/thumbs/mc_creeperhead.png" width="100"> <img src="app/thumbs/mc_tnt.png" width="100">
-
+<img src="app/thumbs/head_pootis.png" width="110"> 
 ## Dowsnload
 
 Get it from [Releases](../../releases/latest):
