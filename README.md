@@ -19,9 +19,9 @@ Grab one from the [Releases page](../../releases/latest):
 
 | File | What it is |
 |---|---|
-| `PASS Time JACK Switcher.bat` | Windows, one file. Double-click it. |
+| `pass-time-jack-switcher.bat` | Windows, one file. Double-click it. |
 | `pass-time-jack-switcher.sh` | Linux, one file. Run `bash pass-time-jack-switcher.sh`. |
-| `PASS Time JACK Switcher.zip` | Windows, folder version. Unzip and run `JACK Switcher.bat`. |
+| `pass-time-jack-switcher.zip` | Windows, folder version. Unzip and run `JACK Switcher.bat`. |
 
 You can also clone this repo and run `JACK Switcher.bat` directly. It's the same as the zip.
 
