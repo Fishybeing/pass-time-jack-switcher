@@ -12,6 +12,8 @@ Get it from [Releases](../../releases/latest):
 
 Close TF2 first, pick what you want, then start TF2. Test with `map pass_brickyard`.
 
+Got your own .vpk? Hit "Add Custom" and pick which tab it goes in.
+
 Needs `sv_pure 0` servers to show up. 
 
 ## Credits

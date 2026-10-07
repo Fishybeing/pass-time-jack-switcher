@@ -86,13 +86,23 @@ $Categories = [ordered]@{
     extra = @{ Title = "Extras";     Folder = Join-Path $PackageDir "extras";     FilePrefix = "extra_";    DefaultName = $null;               Toggle = $true }
 }
 
+$CustomItemsDir = Join-Path $SettingsDir "custom"
+$CustomListFile = Join-Path $CustomItemsDir "custom.txt"
 $Items = New-Object System.Collections.Generic.List[hashtable]
-foreach ($line in Get-Content (Join-Path $AppDir "items.txt")) {
-    if (-not $line.Trim()) { continue }
-    $category, $group, $name, $file, $thumb = $line.Split("|")
-    if (-not $file) { $file = $null }
-    $Items.Add(@{ Category = $category; Group = $group; Name = $name; File = $file; Thumb = $thumb })
+
+function Read-ItemList($listFile, $customFolder) {
+    if (-not (Test-Path $listFile)) { return }
+    foreach ($line in Get-Content $listFile) {
+        if (-not $line.Trim()) { continue }
+        $category, $group, $name, $file, $thumb = $line.Split("|")
+        if (-not $file) { $file = $null }
+        $folder = if ($customFolder) { $customFolder } else { $Categories[$category].Folder }
+        $Items.Add(@{ Category = $category; Group = $group; Name = $name; File = $file; Thumb = $thumb; Folder = $folder; IsCustom = [bool]$customFolder })
+    }
 }
+
+Read-ItemList (Join-Path $AppDir "items.txt") $null
+Read-ItemList $CustomListFile $CustomItemsDir
 
 
 function Get-InstalledFiles($category) {
@@ -119,11 +129,11 @@ function Install-Item($item) {
     $category = $Categories[$item.Category]
     try {
         if ($category.Toggle) {
-            if (Test-Installed $item) { Remove-InstalledFile $item.File } else { Copy-ToCustom $category $item.File }
+            if (Test-Installed $item) { Remove-InstalledFile $item.File } else { Copy-ToCustom $item }
             return
         }
         foreach ($file in Get-InstalledFiles $item.Category) { Remove-InstalledFile $file }
-        if ($item.File) { Copy-ToCustom $category $item.File }
+        if ($item.File) { Copy-ToCustom $item }
     } catch {
         Show-Message "Couldn't switch: $($_.Exception.Message)" "Error"
     }
@@ -138,8 +148,44 @@ function Remove-InstalledFile($file) {
     Remove-Item -Path (Join-Path $CustomFolder "$file.sound.cache") -Force -ErrorAction SilentlyContinue
 }
 
-function Copy-ToCustom($category, $file) {
-    Copy-Item -Path (Join-Path $category.Folder $file) -Destination $CustomFolder -Force -ErrorAction Stop
+function Copy-ToCustom($item) {
+    Copy-Item -Path (Join-Path $item.Folder $item.File) -Destination $CustomFolder -Force -ErrorAction Stop
+}
+
+function Get-SafeFileName($name) {
+    $safe = ($name.ToLower() -replace "[^a-z0-9]+", "_").Trim("_")
+    if (-not $safe) { $safe = "item" }
+    return $safe
+}
+
+function Add-CustomItem($sourceFile, $category, $name) {
+    $prefix = $Categories[$category].FilePrefix
+    $base = "$($prefix)custom_$(Get-SafeFileName $name)"
+    $file = "$base.vpk"
+    $n = 2
+    while (Test-Path (Join-Path $CustomItemsDir $file)) {
+        $file = "$($base)_$n.vpk"
+        $n++
+    }
+
+    $existingNames = @($Items | Where-Object { $_.Category -eq $category } | ForEach-Object { $_.Name })
+    while ($existingNames -contains $name) { $name = "$name (custom)" }
+
+    New-Item -ItemType Directory -Force $CustomItemsDir | Out-Null
+    Copy-Item -Path $sourceFile -Destination (Join-Path $CustomItemsDir $file) -ErrorAction Stop
+    Add-Content -Path $CustomListFile -Value "$category|Custom|$name|$file|custom"
+
+    $item = @{ Category = $category; Group = "Custom"; Name = $name; File = $file; Thumb = "custom"; Folder = $CustomItemsDir; IsCustom = $true }
+    $Items.Add($item)
+    return $item
+}
+
+function Remove-CustomItem($item) {
+    if (Test-Installed $item) { Remove-InstalledFile $item.File }
+    Remove-Item -Path (Join-Path $CustomItemsDir $item.File) -Force -ErrorAction SilentlyContinue
+    $kept = @(Get-Content $CustomListFile | Where-Object { $_.Split("|")[3] -ne $item.File })
+    Set-Content -Path $CustomListFile -Value $kept
+    [void]$Items.Remove($item)
 }
 
 function New-DesktopShortcut {
@@ -226,7 +272,10 @@ function New-ItemCard($item) {
     $picture.SizeMode = "Zoom"
     $picture.BackColor = [System.Drawing.Color]::Transparent
     $thumbFile = Join-Path $ThumbDir "$($item.Thumb).png"
-    if (Test-Path $thumbFile) { $picture.Image = [System.Drawing.Image]::FromFile($thumbFile) }
+    if (Test-Path $thumbFile) {
+        $imageBytes = New-Object System.IO.MemoryStream(, [System.IO.File]::ReadAllBytes($thumbFile))
+        $picture.Image = [System.Drawing.Image]::FromStream($imageBytes)
+    }
 
     $name = New-Object System.Windows.Forms.Label
     $name.Text = $item.Name
@@ -251,6 +300,104 @@ function New-ItemCard($item) {
 function Set-CardHover($card, $hovering) {
     if ($card.Tag.Selected) { return }
     $card.BackColor = if ($hovering) { $Colors.CardHover } else { $Colors.Card }
+}
+
+function Add-CardToPage($item) {
+    $page = $tabPages[$item.Category]
+    if ($lastGroup[$item.Category] -ne $item.Group) {
+        $page.Controls.Add((New-GroupHeader $item.Group))
+        $lastGroup[$item.Category] = $item.Group
+    }
+    $card = New-ItemCard $item
+    if ($item.IsCustom) {
+        $menu = New-Object System.Windows.Forms.ContextMenuStrip
+        $remove = $menu.Items.Add("Remove from menu")
+        $remove.Tag = $card
+        $remove.Add_Click({ param($sender) Remove-CustomCard $sender.Tag })
+        foreach ($control in @($card) + @($card.Controls)) { $control.ContextMenuStrip = $menu }
+    }
+    $page.Controls.Add($card)
+    $cards.Add($card)
+}
+
+function Remove-CustomCard($card) {
+    if (Test-TF2Running) {
+        Show-Message "Close TF2 first." "Warning"
+        return
+    }
+    $item = $card.Tag.Item
+    Remove-CustomItem $item
+    $page = $tabPages[$item.Category]
+    $page.Controls.Remove($card)
+    [void]$cards.Remove($card)
+
+    $customLeft = @($Items | Where-Object { $_.Category -eq $item.Category -and $_.IsCustom }).Count
+    if ($customLeft -eq 0) {
+        $header = $page.Controls | Where-Object { $_ -is [System.Windows.Forms.Label] -and $_.Text -eq "Custom" } | Select-Object -First 1
+        if ($header) { $page.Controls.Remove($header) }
+        $lastGroup[$item.Category] = $null
+    }
+    Update-Window
+}
+
+function Show-AddCustomDialog($defaultName) {
+    $dialog = New-Object System.Windows.Forms.Form
+    $dialog.Text = "Add Custom"
+    $dialog.BackColor = $Colors.Background
+    $dialog.ForeColor = $Colors.Text
+    $dialog.Font = New-Font 10
+    $dialog.FormBorderStyle = "FixedDialog"
+    $dialog.StartPosition = "CenterParent"
+    $dialog.MaximizeBox = $false
+    $dialog.MinimizeBox = $false
+    $dialog.ClientSize = New-Object System.Drawing.Size(380, 190)
+
+    $dialog.Controls.Add((New-Label "Name" 20 18 10 $Colors.Text))
+    $nameBox = New-Object System.Windows.Forms.TextBox
+    $nameBox.Text = $defaultName
+    $nameBox.Location = New-Object System.Drawing.Point(20, 42)
+    $nameBox.Size = New-Object System.Drawing.Size(340, 26)
+    $dialog.Controls.Add($nameBox)
+
+    $dialog.Controls.Add((New-Label "Goes in" 20 78 10 $Colors.Text))
+    $categoryBox = New-Object System.Windows.Forms.ComboBox
+    $categoryBox.DropDownStyle = "DropDownList"
+    $categoryBox.Location = New-Object System.Drawing.Point(20, 102)
+    $categoryBox.Size = New-Object System.Drawing.Size(340, 26)
+    foreach ($key in $Categories.Keys) { [void]$categoryBox.Items.Add($Categories[$key].Title) }
+    $categoryBox.SelectedIndex = [Math]::Max(0, [array]::IndexOf(@($Categories.Keys), $currentTab))
+    $dialog.Controls.Add($categoryBox)
+
+    $ok = New-FlatButton "Add" 170 144 90 34 $Colors.Accent $Colors.White
+    $ok.DialogResult = "OK"
+    $cancel = New-FlatButton "Cancel" 270 144 90 34 $Colors.Card $Colors.Text
+    $cancel.DialogResult = "Cancel"
+    $dialog.Controls.Add($ok)
+    $dialog.Controls.Add($cancel)
+    $dialog.AcceptButton = $ok
+    $dialog.CancelButton = $cancel
+
+    if ($dialog.ShowDialog($window) -ne "OK" -or -not $nameBox.Text.Trim()) { return $null }
+    return @{ Category = @($Categories.Keys)[$categoryBox.SelectedIndex]; Name = $nameBox.Text.Trim() }
+}
+
+function Start-AddCustom {
+    $picker = New-Object System.Windows.Forms.OpenFileDialog
+    $picker.Title = "Pick a .vpk to add"
+    $picker.Filter = "VPK files (*.vpk)|*.vpk"
+    if ($picker.ShowDialog($window) -ne "OK") { return }
+
+    $choice = Show-AddCustomDialog ([IO.Path]::GetFileNameWithoutExtension($picker.FileName))
+    if (-not $choice) { return }
+
+    try {
+        $item = Add-CustomItem $picker.FileName $choice.Category $choice.Name
+        Add-CardToPage $item
+        Show-Tab $choice.Category
+        Update-Window
+    } catch {
+        Show-Message "Couldn't add it: $($_.Exception.Message)" "Error"
+    }
 }
 
 
@@ -292,19 +439,14 @@ foreach ($category in $Categories.Keys) {
 
 $cards = New-Object System.Collections.Generic.List[object]
 $lastGroup = @{}
-foreach ($item in $Items) {
-    $folder = $Categories[$item.Category].Folder
-    if ($item.File -and -not (Test-Path (Join-Path $folder $item.File))) { continue }
-
-    $page = $tabPages[$item.Category]
-    if ($lastGroup[$item.Category] -ne $item.Group) {
-        $page.Controls.Add((New-GroupHeader $item.Group))
-        $lastGroup[$item.Category] = $item.Group
-    }
-    $card = New-ItemCard $item
-    $page.Controls.Add($card)
-    $cards.Add($card)
+foreach ($item in @($Items)) {
+    if ($item.File -and -not (Test-Path (Join-Path $item.Folder $item.File))) { continue }
+    Add-CardToPage $item
 }
+
+$addCustomButton = New-FlatButton "Add Custom..." 340 716 160 40 $Colors.Card $Colors.Text
+$addCustomButton.Add_Click({ Start-AddCustom })
+$window.Controls.Add($addCustomButton)
 
 $launchButton = New-FlatButton "Launch TF2" 686 716 160 40 $Colors.Accent $Colors.White
 $launchButton.Add_Click({ Start-Process "steam://rungameid/440" })
@@ -318,6 +460,7 @@ $window.Controls.Add((New-Label "Pick one of each, Extras are on/off switches.`n
 
 
 function Show-Tab($category) {
+    $script:currentTab = $category
     foreach ($key in $tabPages.Keys) {
         $isActive = ($key -eq $category)
         $tabPages[$key].Visible = $isActive
